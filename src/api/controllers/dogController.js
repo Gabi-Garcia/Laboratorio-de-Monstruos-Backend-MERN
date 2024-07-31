@@ -19,7 +19,10 @@ const createDog = async (req, res, next)=> {
         const {name, type} = req.body;
         const newDog = new Dog({name, type});
         await newDog.save()
-        res.status(201).json(newDog)
+        res.status(201).json({
+            dog:newDog,
+            message:'Perrito creado correctamente'
+    })
     } catch (error) {
         res.status(500).json({ message: 'Error al crear un nuevo perro' });
     }

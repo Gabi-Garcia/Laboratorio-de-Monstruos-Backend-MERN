@@ -1,5 +1,5 @@
-
 ENDPOINTS:
+
 (http:localhost:3000) Para todos los perritos, GET.
 (http:localhost:3000/create) Para crear un perrito, POST.
 (http:localhost:3000/[Element.id]) Para ver un perrito por su id, GET.
