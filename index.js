@@ -3,17 +3,14 @@ const cors = require('cors');
 const express = require ("express");
 const {connectDB} = require("./src/config/db")
 
+const app = express();
 const mongoose = require('mongoose');
 const dogRoutes = require('./src/api/routes/dogRoutes');
-
-const app = express();
 
 connectDB();
 
 // Permite todas las solicitudes de origen cruzado
-app.use(cors({
-    origin: 'http://localhost:5173'
-})); 
+app.use(cors()); 
 // Middlewares
 app.use(express.json());
 
