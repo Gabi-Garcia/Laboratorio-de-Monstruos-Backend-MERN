@@ -44,7 +44,7 @@ const updateDogById = async(req, res, next) => {
     /**POSIBLE ERROR QUE NO MODIFICA EL NOMBRE, EL RESTO DEL OBJETO SÍ LO CAMBIA */
     try {
         const { id } = req.params;
-        const { name } = req.params;
+        const { name } = req.body;
         const { type }= req.body;
         const { age } = req.body;
         const { skill } = req.body;
@@ -55,6 +55,10 @@ const updateDogById = async(req, res, next) => {
         }
         // Buscar y actualizar el perro por su _id en la base de datos
         const updatedDog = await Dog.findByIdAndUpdate(id, {name, type, age, skill}, {new: true})
+
+        if (!updatedDog) {
+            return res.status(404).json({ message: 'Perro no encontrado' });
+        }
         res.status(200).json(updatedDog)
         
     } catch (error) {
