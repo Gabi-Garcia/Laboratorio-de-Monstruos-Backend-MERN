@@ -10,7 +10,10 @@ const dogRoutes = require('./src/api/routes/dogRoutes');
 connectDB();
 
 // Permite todas las solicitudes de origen cruzado
-app.use(cors()); 
+app.use(cors({
+    origin: 'https://laboratorio-de-mounstruos-frontend.vercel.app'
+  }));
+  
 // Middlewares
 app.use(express.json());
 

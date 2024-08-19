@@ -41,18 +41,42 @@ const getDogById = async(req, res, next)=>{
 
 //UPDATE
 const updateDogById = async(req, res, next) => {
-    /**POSIBLE ERROR QUE NO MODIFICA EL NOMBRE, EL RESTO DEL OBJETO SÍ LO CAMBIA */
     try {
         const { id } = req.params;
         const { name } = req.body;
         const { type }= req.body;
         const { age } = req.body;
         const { skill } = req.body;
-        
-         // Verificar si el nuevo tipo fue proporcionado
-        if (!name && !type && !age && !skill) {
-            return res.status(400).json({ message: 'El type del perro es obligatorio' });
+
+         // Validar que todos los campos requeridos están presentes
+        if (!name || !type || !age || !skill) {
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
         }
+        
+        if (name.length > 8 ){
+            return res.status(400).json({ message: 'nombre no puede exeder los 8 caracteres' });
+        }
+        if (type.length > 8 ){
+            return res.status(400).json({ message: 'type no puede exeder los 8 caracteres' });
+        }
+        if (skill.length > 8 ){
+            return res.status(400).json({ message: 'skill no puede exeder los 8 caracteres' });
+        }
+
+         // Validar que el campo name sea estrictamente un string (sin números)
+         const nameRegex = /^[A-Za-z]+$/;
+         if (!nameRegex.test(name)) {
+         return res.status(400).json({ message: 'El nombre debe ser un string y no puede contener números' });
+         }
+
+       // Convertir age a un número flotante primero
+         const parsedAge = Number(age);
+
+        // Validar que el campo age sea un número entero dentro del rango 0-999
+         if (!Number.isInteger(parsedAge) || parsedAge > 999 || parsedAge < 0) {
+         return res.status(400).json({ message: 'La edad debe ser un número entero entre 0 y 999' });
+         }
+
         // Buscar y actualizar el perro por su _id en la base de datos
         const updatedDog = await Dog.findByIdAndUpdate(id, {name, type, age, skill}, {new: true})
 
